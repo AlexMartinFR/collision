@@ -62,12 +62,14 @@ final class Style
 
         $state->eachTestCaseTests(function (TestResult $testResult) {
             usleep(20000);
-            $this->output->writeln($this->testLineFrom(
-                $testResult->color,
-                $testResult->icon,
-                $testResult->description,
-                $testResult->warning
-            ));
+            if ($testResult->type !== 'passed') {
+                $this->output->writeln($this->testLineFrom(
+                    $testResult->color,
+                    $testResult->icon,
+                    $testResult->description,
+                    $testResult->warning
+                ));
+            }
         });
     }
 
@@ -137,13 +139,12 @@ final class Style
         if ($timer !== null) {
             $timeElapsed = number_format($timer->result(), 2, '.', '');
             $this->output->writeln([
-                    '',
-                    sprintf(
-                        '  <fg=white;options=bold>Time:   </><fg=default>%ss</>',
-                        $timeElapsed
-                    ),
-                ]
-            );
+                '',
+                sprintf(
+                    '  <fg=white;options=bold>Time:   </><fg=default>%ss</>',
+                    $timeElapsed
+                ),
+            ]);
         }
     }
 
